@@ -8,5 +8,5 @@ def handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': request
+        'body': json.dumps(request)
     }

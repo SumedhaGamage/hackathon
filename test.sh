@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application/json" -d '{"name":"hello"}' https://lth8m10ox7.execute-api.us-east-1.amazonaws.com/pii/check
