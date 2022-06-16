@@ -49,7 +49,7 @@ def handler(event, context):
             newtext = maskstring(newtext, int(item['BeginOffset']), int(item['EndOffset']), maskchar)        
         
         data_record = {
-            'message': data,
+            'message': newtext,
         }
         
         output_record = {
