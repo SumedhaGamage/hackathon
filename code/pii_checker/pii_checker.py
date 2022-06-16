@@ -2,6 +2,7 @@ import json
 import logging
 import boto3
 from botocore.exceptions import ClientError
+from processors import Segmenter, Redactor
 
 logger = logging.getLogger(__name__)
 

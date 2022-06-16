@@ -36,11 +36,11 @@ def handler(event, context):
         
         output_record = {
             'recordId': record['recordId'],
-            'result': 'OK',
+            'result': 'Ok',
             'data': base64.b64encode(json.dumps(data_record).encode('utf-8')).decode('utf-8')
         }
         
         output.append(output_record)
         
-        return {'records': output}
+    return {'records': output}
         
