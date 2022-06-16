@@ -4,7 +4,8 @@ from aws_cdk import (
     # aws_sqs as sqs,
     aws_apigatewayv2_alpha as gateway,
     aws_apigatewayv2_integrations_alpha as lambda_integration,
-    aws_lambda as _lambda
+    aws_lambda as _lambda,
+    aws_iam
 
 )
 from constructs import Construct
@@ -20,12 +21,21 @@ class HackathonStack(Stack):
                                      code=_lambda.Code.from_asset('code/common_lib/'),
                                      compatible_runtimes=[_lambda.Runtime.PYTHON_3_8])
 
+        comprehend_policy = aws_iam.PolicyStatement(
+            effect=aws_iam.Effect.ALLOW,
+            actions=[
+                'comprehend:*',
+            ],
+            resources=["*"]
+        )
+
         pii_checker = _lambda.Function(self, 'pii_checker_func',
                                        code=_lambda.Code.from_asset('code/pii_checker'),
                                        handler='pii_checker.handler',
                                        runtime=_lambda.Runtime.PYTHON_3_8,
                                        function_name='pii_checker_func',
-                                       layers=[layer]
+                                       layers=[layer],
+                                       initial_policy=[comprehend_policy]
                                        )
 
         pii_integration = lambda_integration.HttpLambdaIntegration(

@@ -1,1 +1,1 @@
-curl -X POST -H "Content-Type: application/json" -d '{"text":"hello"}' https://lth8m10ox7.execute-api.us-east-1.amazonaws.com/pii/check
+curl -X POST -H "Content-Type: application/json" -d '{"text":"Sumedha Gamage is from USA with zip 77079"}' https://lth8m10ox7.execute-api.us-east-1.amazonaws.com/pii/check
