@@ -2,5 +2,6 @@ aws-cdk-lib==2.28.0
 aws_cdk.aws_apigatewayv2_alpha
 aws_cdk.aws_apigatewayv2_integrations_alpha
 aws_cdk.aws_kinesisfirehose_alpha
+aws_cdk.aws_kinesisfirehose_destinations_alpha
 constructs>=10.0.0,<11.0.0
 

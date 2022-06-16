@@ -7,7 +7,7 @@ from aws_cdk import (
 
 )
 
-import path as path
+# import path as path
 import aws_cdk.aws_kinesisfirehose_alpha as firehose
 import aws_cdk.aws_kms as kms
 import aws_cdk.aws_lambda_nodejs as lambdanodejs
@@ -33,7 +33,7 @@ class FirehoseStack(Stack):
                                   removal_policy=cdk.RemovalPolicy.DESTROY,
                                   auto_delete_objects=True
                                   )
-        log_group = logs.LogGroup(stack, "PII-LogGroup",
+        log_group = logs.LogGroup(self, "PII-LogGroup",
                                   removal_policy=cdk.RemovalPolicy.DESTROY
                                   )
 
@@ -42,11 +42,11 @@ class FirehoseStack(Stack):
                                      code=_lambda.Code.from_asset('code/common_lib/'),
                                      compatible_runtimes=[_lambda.Runtime.PYTHON_3_8])
 
-        data_processor_function = _lambda.Function(self, 'pii_checker_func',
-                                                   code=_lambda.Code.from_asset('code/pii_checker'),
-                                                   handler='pii_checker.handler',
+        data_processor_function = _lambda.Function(self, 'pii_checker_realtime_func',
+                                                   code=_lambda.Code.from_asset('code/pii_checker_realtime'),
+                                                   handler='pii_checker_realtime.handler',
                                                    runtime=_lambda.Runtime.PYTHON_3_8,
-                                                   function_name='pii_checker_func',
+                                                   function_name='pii_checker_realtime_func',
                                                    layers=[layer]
                                                    )
 
