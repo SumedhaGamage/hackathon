@@ -6,4 +6,5 @@ aws_cdk.aws_kinesisfirehose_destinations_alpha
 constructs>=10.0.0,<11.0.0
 
 pii-data-generator
+boto3
 

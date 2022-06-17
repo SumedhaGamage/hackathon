@@ -3,7 +3,8 @@ from aws_cdk import (
     Stack,
     # aws_sqs as sqs,
     aws_kinesisfirehose as firehose,
-    aws_lambda as _lambda
+    aws_lambda as _lambda,
+    aws_iam
 
 )
 
@@ -42,12 +43,21 @@ class FirehoseStack(Stack):
                                      code=_lambda.Code.from_asset('code/common_lib/'),
                                      compatible_runtimes=[_lambda.Runtime.PYTHON_3_8])
 
+        comprehend_policy = aws_iam.PolicyStatement(
+            effect=aws_iam.Effect.ALLOW,
+            actions=[
+                'comprehend:*',
+            ],
+            resources=["*"]
+        )
+
         data_processor_function = _lambda.Function(self, 'pii_checker_realtime_func',
                                                    code=_lambda.Code.from_asset('code/pii_checker_realtime'),
                                                    handler='pii_checker_realtime.handler',
                                                    runtime=_lambda.Runtime.PYTHON_3_8,
                                                    function_name='pii_checker_realtime_func',
-                                                   layers=[layer]
+                                                   layers=[layer],
+                                                   initial_policy=[comprehend_policy]
                                                    )
 
         processor = firehose.LambdaFunctionProcessor(data_processor_function,
@@ -69,7 +79,7 @@ class FirehoseStack(Stack):
                                                                     logging=True,
                                                                     log_group=log_group,
                                                                     processor=processor,
-                                                                    compression=destinations.Compression.GZIP,
+                                                                    compression=destinations.Compression.ZIP,
                                                                     data_output_prefix="regularPrefix",
                                                                     error_output_prefix="errorPrefix",
                                                                     buffering_interval=cdk.Duration.seconds(60),
